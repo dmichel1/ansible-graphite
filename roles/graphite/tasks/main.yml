@@ -1,0 +1,54 @@
+---
+
+- name: Create graphite user
+  user: name=graphite
+
+- name: Install Graphite Depedencies
+  yum: "name={{ item }} state=present"
+  with_items:
+    - pycairo
+    - sqlite
+    - bitmap 
+    - bitmap-fonts
+    #- python-sqlite2
+    #- python-twisted
+    - python-zope-interface
+
+
+- name: Install Graphite from PIP
+  pip: "name={{ item }} state=present"
+  with_items:
+    - pycairo
+    - graphite-web
+    - whisper
+    - carbon
+    - django
+    - django-tagging
+    - pysqlite2
+    - twisted
+
+
+  environment:
+    PYTHONPATH: "/opt/graphite/lib:/opt/graphite/webapp"
+
+
+- name: Configure Carbon Cache
+  template: src=opt/graphite/conf/carbon.conf.j2 dest=/opt/graphite/conf/carbon.conf 
+   owner=graphite group=graphite mode=0644
+  tags: test
+
+
+- name: Configure Carbon Storage Schema
+  template: src=opt/graphite/conf/storage-schemas.conf.j2 dest=/opt/graphite/conf/storage-schemas.conf 
+   owner=graphite group=graphite mode=0644
+  tags: test
+
+- name: Configure Graphite webapp
+  template: src=opt/graphite/webapp/graphite/local_settings.py.j2 dest=/opt/graphite/webapp/graphite/local_settings.py
+   owner=graphite group=graphite mode=0644
+  tags: test
+
+- name: Setup sqlite DB
+  command: /usr/bin/python manage.py syncdb --noinput chdir=/opt/graphite/webapp/graphite 
+   creates=/opt/graphite/storage/graphite.db
+  tags: test

@@ -1,0 +1,15 @@
+---
+
+- name: Add the EPEL Repository
+  yum: name=http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm state=present
+
+
+- name: Install Python PIP and Python Development
+  yum: "name={{ item }} state=installed"
+  with_items:
+   - python-pip
+   - python-devel
+
+
+- name: Install Development Tools
+  yum: name="@Development tools" state=present
