@@ -7,5 +7,4 @@
   roles:
     - roles/centos
     - roles/httpd
-    #- roles/graphite
-
+    - roles/graphite

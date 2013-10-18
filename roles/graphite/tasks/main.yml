@@ -1,54 +1,65 @@
 ---
 
-- name: Create graphite user
-  user: name=graphite
-
-- name: Install Graphite Depedencies
+- name: Install Graphite Dependencies
   yum: "name={{ item }} state=present"
   with_items:
-    - pycairo
     - sqlite
     - bitmap 
     - bitmap-fonts
-    #- python-sqlite2
-    #- python-twisted
-    - python-zope-interface
+    - python-sqlite2
+    - pycairo
 
 
 - name: Install Graphite from PIP
   pip: "name={{ item }} state=present"
   with_items:
-    - pycairo
     - graphite-web
     - whisper
     - carbon
     - django
     - django-tagging
-    - pysqlite2
     - twisted
-
-
   environment:
     PYTHONPATH: "/opt/graphite/lib:/opt/graphite/webapp"
 
 
 - name: Configure Carbon Cache
-  template: src=opt/graphite/conf/carbon.conf.j2 dest=/opt/graphite/conf/carbon.conf 
-   owner=graphite group=graphite mode=0644
-  tags: test
+  template: src=opt/graphite/conf/carbon.conf.j2 dest=/opt/graphite/conf/carbon.conf mode=0644
 
 
 - name: Configure Carbon Storage Schema
-  template: src=opt/graphite/conf/storage-schemas.conf.j2 dest=/opt/graphite/conf/storage-schemas.conf 
-   owner=graphite group=graphite mode=0644
-  tags: test
+  template: src=opt/graphite/conf/storage-schemas.conf.j2 dest=/opt/graphite/conf/storage-schemas.conf mode=0644
+
+- name: Generate random secret key
+  shell: tr -dc A-Za-z0-9_ < /dev/urandom | head -c 64; echo creates=/opt/graphite/webapp/graphite/local_settings.py
+  register: SECRET_KEY
+
 
 - name: Configure Graphite webapp
-  template: src=opt/graphite/webapp/graphite/local_settings.py.j2 dest=/opt/graphite/webapp/graphite/local_settings.py
-   owner=graphite group=graphite mode=0644
-  tags: test
+  template: src=opt/graphite/webapp/graphite/local_settings.py.j2 dest=/opt/graphite/webapp/graphite/local_settings.py mode=0644
+  when: SECRET_KEY.skipped != True 
+
+
+- name: Configure graphite.wsgi
+  copy: src=opt/graphite/conf/graphite.wsgi dest=/opt/graphite/conf/graphite.wsgi mode=0644
+
+
 
 - name: Setup sqlite DB
   command: /usr/bin/python manage.py syncdb --noinput chdir=/opt/graphite/webapp/graphite 
    creates=/opt/graphite/storage/graphite.db
-  tags: test
+
+
+- name: Get directory permissions
+  stat: path=/opt/graphite
+  register: permissions
+
+
+- name: Set file permissions
+  command: /bin/chown -R apache:apache /opt/graphite
+  when: permissions.stat.pw_name == 'root'
+
+
+- name: Start apache httpd
+  service: name=httpd state=running enabled=yes
+

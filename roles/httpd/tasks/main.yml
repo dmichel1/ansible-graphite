@@ -5,4 +5,10 @@
   with_items:
     - httpd
     - mod_wsgi
-  tags: test
+
+
+- name: Add graphite vhost
+  template: src=etc/httpd/conf.d/graphite.conf.j2 dest=/etc/httpd/conf.d/graphite.conf
+   owner=apache group=apache mode=0644
+  notify:
+    - reload httpd
