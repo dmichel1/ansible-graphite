@@ -1,7 +1,7 @@
 Ansible Graphite
 ----------------
 
-Use Ansible to install and configure graphite for a RHEL 6.X Operating System. 
+Use Ansible to install and configure graphite for a RHEL/CentOS 6.X Operating System. 
 
 This Ansible playbook will install graphite via pip in its default location '/opt/graphite'
 
