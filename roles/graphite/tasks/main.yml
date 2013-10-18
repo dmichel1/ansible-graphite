@@ -23,12 +23,16 @@
     PYTHONPATH: "/opt/graphite/lib:/opt/graphite/webapp"
 
 
-- name: Configure Carbon Cache
+- name: Configure carbon cache
   template: src=opt/graphite/conf/carbon.conf.j2 dest=/opt/graphite/conf/carbon.conf mode=0644
 
 
-- name: Configure Carbon Storage Schema
+- name: Configure carbon storage schema
   template: src=opt/graphite/conf/storage-schemas.conf.j2 dest=/opt/graphite/conf/storage-schemas.conf mode=0644
+
+- name: Configure carbon init.d script
+  copy: src=etc/init.d/carbon-cache dest=/etc/init.d/carbon-cache
+
 
 - name: Generate random secret key
   shell: tr -dc A-Za-z0-9_ < /dev/urandom | head -c 64; echo creates=/opt/graphite/webapp/graphite/local_settings.py
@@ -37,12 +41,15 @@
 
 - name: Configure Graphite webapp
   template: src=opt/graphite/webapp/graphite/local_settings.py.j2 dest=/opt/graphite/webapp/graphite/local_settings.py mode=0644
-  when: SECRET_KEY.skipped != True 
+  when: SECRET_KEY.skipped is not defined
+  notify:
+    - reload httpd
 
 
 - name: Configure graphite.wsgi
   copy: src=opt/graphite/conf/graphite.wsgi dest=/opt/graphite/conf/graphite.wsgi mode=0644
-
+  notify:
+    - reload httpd
 
 
 - name: Setup sqlite DB
@@ -62,4 +69,8 @@
 
 - name: Start apache httpd
   service: name=httpd state=running enabled=yes
+
+
+- name: Start carbon cache
+  service: name=carbon-cache state=running enabled=yes
 
