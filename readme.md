@@ -8,6 +8,7 @@ This Ansible playbook will install graphite via pip in its default location '/op
 
 
 To run this playbook.
+
 1. clone the repo
 2. modify `hosts` with the IP or hostname of the server you want to setup
 3. run `ansible-playbook -i hosts playbook.yml` 
