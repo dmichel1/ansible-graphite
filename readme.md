@@ -1,7 +1,8 @@
-Ansible Graphite
-----------------
+Ansible - Metrics
+-----------------
 
-Use Ansible to install and configure graphite for a RHEL/CentOS 6.X Operating System. 
+Tested with Ansible 1.3.3 against RHEL/CentOS 6.4. 
+
 
 This Ansible playbook will install graphite via pip in its default location '/opt/graphite'
 
@@ -9,15 +10,30 @@ This Ansible playbook will install graphite via pip in its default location '/op
 To run this playbook.
 
 1. clone the repo
-2. modify `hosts` with the IP or hostname of the server you want to setup
-3. run `ansible-playbook -i hosts playbook.yml` 
+2. modify `hosts` file with the IP or hostname of the server you want to setup
+3. run `ansible-playbook -i hosts playbook.yml`
+4. In ~4 minutes you should have a running Graphite/Statd server!
+  * I've been testing this on a Digital Ocean VM - 1 CPU/1GB Ram CentOS 6.4
+
+
+Graphite
+--------
+Graphite will be installed via pip in its default location '/opt/graphite'
+
+
+Statsd
+------
+Ansible will setup statsd to communicate with a Graphite server running on localhost by default.
+
+
+Carbon's Storage Schema and Aggregation configuration have been setup according to [this page](https://github.com/etsy/statsd/blob/master/docs/graphite.md).
 
 
 
 
 TODO
 ----
-* Automate superuser creation `python manage.py createsuperuser`
+* Automate Django superuser creation `python manage.py createsuperuser`.
 
 
 

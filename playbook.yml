@@ -8,3 +8,4 @@
     - roles/centos
     - roles/httpd
     - roles/graphite
+    - roles/statsd

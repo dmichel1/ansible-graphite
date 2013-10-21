@@ -30,6 +30,11 @@
 - name: Configure carbon storage schema
   template: src=opt/graphite/conf/storage-schemas.conf.j2 dest=/opt/graphite/conf/storage-schemas.conf mode=0644
 
+
+- name: Configure carbon storage aggregation
+  template: src=opt/graphite/conf/storage-aggregation.conf.j2 dest=/opt/graphite/conf/storage-aggregation.conf mode=0644
+
+
 - name: Configure carbon init.d script
   copy: src=etc/init.d/carbon-cache dest=/etc/init.d/carbon-cache
 
