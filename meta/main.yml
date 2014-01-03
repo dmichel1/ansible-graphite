@@ -2,6 +2,7 @@
 galaxy_info:
   author: Drew Michel
   description: Graphite and Statsd Installation and Configuration
+  company: DrewL
   license: MIT
   min_ansible_version: 1.3
   platforms:
@@ -10,3 +11,4 @@ galaxy_info:
     - 6
   categories:
   - monitoring
+dependencies: []
