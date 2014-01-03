@@ -36,6 +36,7 @@ Carbon's Storage Schema and Aggregation configuration have been setup according 
 TODO
 ----
 * Automate Django superuser creation `python manage.py createsuperuser`.
+* Add Debian support
 
 
 
