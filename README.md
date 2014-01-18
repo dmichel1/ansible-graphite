@@ -1,48 +1,59 @@
-Ansible - Metrics
------------------
-
-Tested with Ansible 1.4.1 against RHEL/CentOS 6.4. 
-
-
+Ansible - Graphite: Scalable Realtime Graphing
+------------------
 This Ansible playbook will install graphite via pip in its default location '/opt/graphite'
 
 
 To run this playbook.
 
 1. clone the repo
-2. modify `hosts` file with the IP or hostname of the server you want to setup
+2. modify the `hosts` file to reflect the server you want to install Graphite on
 3. ignore ssh's known hosts file
   * `export ANSIBLE_HOST_KEY_CHECKING=False`
 4. run `ansible-playbook -i hosts playbook.yml`
-5. In ~4 minutes you should have a running Graphite/Statd server!
-  * I've been testing this on a Digital Ocean VM - 1 CPU/1GB Ram CentOS 6.4
+5. In ~4 minutes you should have a running Graphite server!
 
 
-Graphite
---------
-Graphite will be installed via pip in its default location '/opt/graphite'
-
-
-### Secrets
+Config Changes
+--------------
+## Secrets
 Change `graphite_secret_key` under `roles/graphite/defaults/main.yml` to something unique for your graphite instance!
 
+## Django
+Ensure the path to Django media is correct for your distro
+```
+    # XXX In order for the django admin site media to work you
+    # must change @DJANGO_ROOT@ to be the path to your django
+    # installation, which is probably something like:
+
+    Alias /media/ "/usr/lib/python2.6/site-packages/django/contrib/admin/media/"
+```
 
 
-Statsd
-------
-Ansible will setup statsd to communicate with a Graphite server running on localhost by default.
+
+Testing
+--------
+
+### Vagrant
+Simply clone this repo and make sure you have Vagrant + Virtual Box installed and...
+  1. vagrant up
+  2. visit http://192.168.111.222/
+  3. :-) 
+
+Vagrant is using Ubuntu 13.04 Raring Ringtail for it's OS.
 
 
-Carbon's Storage Schema and Aggregation configuration have been setup according to [this page](https://github.com/etsy/statsd/blob/master/docs/graphite.md).
+### Digital Ocean
+I've tested this playbook with Digital Ocean VM's with a few different flavor of OS's.
 
+  * CentOS 6.5  
+  * Ubuntu 12.04 Precise Pangolin
+  * Ubuntu 13.04 Raring Ringtail
 
 
 
 TODO
 ----
-* Automate Django superuser creation `python manage.py createsuperuser`.
-* Add Debian support
-
+* Add Django superuser creation `python manage.py createsuperuser`.
 
 
 

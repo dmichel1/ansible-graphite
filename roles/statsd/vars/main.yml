@@ -1,5 +1,0 @@
----
-
-statsdPort: 8125
-graphiteHost: localhost
-graphitePort: 2003

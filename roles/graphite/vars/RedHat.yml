@@ -1,0 +1,11 @@
+---
+
+graphite_apache_wsgi_socket_prefix: run/wsgi
+graphite_apache_vhost_name: graphite.conf
+
+graphite_pkgs:
+  - sqlite
+  - bitmap 
+  - bitmap-fonts
+  - python-sqlite2
+  - pycairo

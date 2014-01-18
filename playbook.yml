@@ -1,11 +1,37 @@
 ---
+- name: Discover facts and group
+  hosts: all
+  user: '{{ ssh_user }}'
+  sudo: yes
+  vars:
+    ssh_user: root
+  tasks:
+    - name: Wait for ssh to be running
+      local_action: wait_for host={{ inventory_hostname }} delay=0 port=22 timeout=90 state=started
+      sudo: no
+    - name: Group RedHat hosts
+      group_by: key={{ ansible_os_family }}
+      changed_when: False
+
+
+- name: Configure RedHat hosts
+  hosts: RedHat
+  user: '{{ ssh_user }}'
+  sudo: yes
+  gather_facts: no
+  vars:
+    ssh_user: root
+  roles:
+    - roles/centos
+
 
 - name: graphite
   hosts: graphite
-  user: root
-
+  user: '{{ ssh_user }}'
+  sudo: true
+  gather_facts: no
+  vars:
+    ssh_user: root
   roles:
-    - roles/centos
-    - roles/httpd
+    - roles/apache
     - roles/graphite
-    - roles/statsd

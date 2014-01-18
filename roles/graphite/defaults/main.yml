@@ -1,5 +1,6 @@
 ---
 
+graphite_apache_port: 80
 graphite_secret_key: 'SDFkhaoboqqggb1)yR-czZ=JXfZxaQZ-o{s8uAZgC{:R+,*3A0I:KS?a~NJxG'
 
 graphite_ldap_enabled: False

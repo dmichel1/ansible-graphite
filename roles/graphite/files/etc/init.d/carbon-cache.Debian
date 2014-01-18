@@ -1,0 +1,71 @@
+#!/bin/bash
+#
+# Carbon (part of Graphite)
+#
+# chkconfig: 3 50 50
+# description: Carbon init.d
+. /lib/lsb/init-functions
+ 
+prog=carbon-cache
+RETVAL=0
+
+EXEC="/opt/graphite/bin/carbon-cache.py"
+PIDFILE="/opt/graphite/carbon-cache.pid"
+CONFIG="/opt/graphite/conf/carbon.conf"
+LOG_DIR="/opt/graphite/storage/log/carbon"
+ 
+start() {
+  echo -n $"Starting $prog: "
+  
+  $EXEC --config=$CONFIG --pidfile=$PIDFILE --logdir=$LOG_DIR start
+  RETVAL=$?
+  
+  if [ $RETVAL = 0 ]; then
+    log_daemon_msg "carbon started"
+  else
+    log_daemon_msg "carbon failed to start"
+  fi
+  
+  echo
+  return $RETVAL
+}
+ 
+stop() {
+  echo -n $"Stopping $prog: "
+  
+  $EXEC --config=$CONFIG --pidfile=$PIDFILE --logdir=$LOG_DIR stop > /dev/null 2>&1
+  RETVAL=$?
+  
+  if [ $RETVAL = 0 ]; then
+    log_daemon_msg "carbon stopped"
+  else
+    log_daemon_msg "carbon failed to stop"
+  fi
+
+  sleep 1
+  echo
+  return $RETVAL
+}
+ 
+# See how we were called.
+case "$1" in
+  start)
+  start
+  ;;
+  stop)
+  stop
+  ;;
+  status)
+  $EXEC --config=$CONFIG --pidfile=$PIDFILE --logdir=$LOG_DIR status
+  RETVAL=$?
+  ;;
+  restart)
+  stop
+  start
+  ;;
+  *)
+  log_action_msg $"Usage: $prog {start|stop|restart|status}"
+  exit 1
+esac
+ 
+exit $RETVAL
