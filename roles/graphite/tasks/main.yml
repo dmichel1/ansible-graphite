@@ -10,7 +10,7 @@
     - pycairo
 
 
-- name: Configure carbon init.d script
+- name: Create PIP requirements file 
   copy: src=opt/graphite/requirements.txt dest=/tmp/requirements.txt
 
 - name: Install Graphite from PIP
