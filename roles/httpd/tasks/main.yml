@@ -1,7 +1,7 @@
 ---
 
 - name: Install apache httpd and mod_wsgi
-  yum: "name={{ item }} state=present"
+  yum: name={{ item }} state=present
   with_items:
     - httpd
     - mod_wsgi

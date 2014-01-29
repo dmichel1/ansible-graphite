@@ -6,7 +6,7 @@
 # Read http://code.google.com/p/modwsgi/wiki/ConfigurationDirectives#WSGISocketPrefix
 WSGISocketPrefix run/wsgi
 
-<VirtualHost *:1080>
+<VirtualHost *:{{ graphite_httpport }}>
         ServerName graphite
         DocumentRoot "/opt/graphite/webapp"
         ErrorLog /opt/graphite/storage/log/webapp/error.log
