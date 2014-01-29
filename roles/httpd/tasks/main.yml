@@ -7,6 +7,9 @@
     - mod_wsgi
 
 
+- name: Set listen port
+  lineinfile: dest=/etc/httpd/conf/httpd.conf regexp="^Listen " line="Listen {{ graphite_httpport }}"
+
 - name: Add graphite vhost
   template: src=etc/httpd/conf.d/graphite.conf.j2 dest=/etc/httpd/conf.d/graphite.conf
    owner=apache group=apache mode=0644
