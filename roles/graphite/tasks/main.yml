@@ -32,7 +32,7 @@
 
 
 - name: Configure carbon init.d script
-  copy: src=etc/init.d/carbon-cache dest=/etc/init.d/carbon-cache
+  copy: src=etc/init.d/carbon-cache dest=/etc/init.d/carbon-cache mode=0755
 
 
 - name: Generate random secret key
