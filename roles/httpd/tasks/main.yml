@@ -9,6 +9,8 @@
 
 - name: Set listen port
   lineinfile: dest=/etc/httpd/conf/httpd.conf regexp="^Listen " line="Listen {{ graphite_httpport }}"
+  notify:
+    - reload httpd
 
 - name: Add graphite vhost
   template: src=etc/httpd/conf.d/graphite.conf.j2 dest=/etc/httpd/conf.d/graphite.conf
