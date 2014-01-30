@@ -4,6 +4,6 @@ graphite_ldap_host: "ldap.mycompany.com"
 graphite_ldap_port: 389
 graphite_ldaps_port: 636
 graphite_ldap_search_base: "OU=users,DC=mycompany,DC=com"
-graphite_ldap_base_user: "CN=some_readonly_account,DC=sulake,DC=com"
+graphite_ldap_base_user: "CN=some_readonly_account,DC=mycompany,DC=com"
 graphite_ldap_base_pass: "readonly_account_password"
 graphite_ldap_user_query: "(username=%s)"
