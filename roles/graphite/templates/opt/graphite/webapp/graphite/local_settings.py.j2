@@ -1,3 +1,4 @@
+# {{ ansible_managed }}
 ## Graphite local_settings.py
 # Edit this file to customize the default Graphite webapp settings
 #
@@ -100,6 +101,19 @@ TIME_ZONE = 'UTC'
 # Authentication Configuration #
 #####################################
 ## LDAP / ActiveDirectory authentication setup
+{% if graphite_ldap_enabled is defined and graphite_ldap_enabled %}
+USE_LDAP_AUTH = True
+{% if graphite_ldaps_enabled is defined and graphite_ldaps_enabled %}
+LDAP_URI = "ldaps://{{ graphite_ldap_host }}:{{ graphite_ldap_port }}"
+{% else %} 
+LDAP_SERVER = "{{ graphite_ldap_host }}"
+LDAP_PORT = {{ graphite_ldap_port }}
+{% endif %}
+LDAP_SEARCH_BASE = "{{ graphite_ldap_search_base }}"
+LDAP_BASE_USER = "{{ graphite_ldap_base_user }}"
+LDAP_BASE_PASS = "{{ graphite_ldap_base_pass }}"
+LDAP_USER_QUERY = "{{ graphite_ldap_user_query }}"
+{% else %}
 #USE_LDAP_AUTH = True
 #LDAP_SERVER = "ldap.mycompany.com"
 #LDAP_PORT = 389
@@ -109,6 +123,7 @@ TIME_ZONE = 'UTC'
 #LDAP_BASE_USER = "CN=some_readonly_account,DC=mycompany,DC=com"
 #LDAP_BASE_PASS = "readonly_account_password"
 #LDAP_USER_QUERY = "(username=%s)"  #For Active Directory use "(sAMAccountName=%s)"
+{% endif %}
 #
 # If you want to further customize the ldap connection options you should
 # directly use ldap.set_option to set the ldap module's global options.
