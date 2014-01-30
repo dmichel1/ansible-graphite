@@ -8,6 +8,7 @@
     - bitmap-fonts
     - python-sqlite2
     - pycairo
+    - python-ldap
 
 
 - name: Create PIP requirements file 
