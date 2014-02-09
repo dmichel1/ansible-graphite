@@ -23,6 +23,11 @@ Graphite
 Graphite will be installed via pip in its default location '/opt/graphite'
 
 
+### Secrets
+Change `graphite_secret_key` under `roles/graphite/defaults/main.yml` to something unique for your graphite instance!
+
+
+
 Statsd
 ------
 Ansible will setup statsd to communicate with a Graphite server running on localhost by default.

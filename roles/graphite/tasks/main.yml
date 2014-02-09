@@ -35,14 +35,8 @@
   copy: src=etc/init.d/carbon-cache dest=/etc/init.d/carbon-cache mode=0755
 
 
-- name: Generate random secret key
-  shell: tr -dc A-Za-z0-9_ < /dev/urandom | head -c 64; echo creates=/opt/graphite/webapp/graphite/local_settings.py
-  register: SECRET_KEY
-
-
 - name: Configure Graphite webapp
   template: src=opt/graphite/webapp/graphite/local_settings.py.j2 dest=/opt/graphite/webapp/graphite/local_settings.py mode=0644
-  when: SECRET_KEY.skipped is not defined
   notify:
     - reload httpd
 
