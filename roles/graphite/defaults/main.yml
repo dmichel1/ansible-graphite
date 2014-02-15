@@ -1,2 +1,10 @@
 ---
+
 graphite_secret_key: 'SDFkhaoboqqggb1)yR-czZ=JXfZxaQZ-o{s8uAZgC{:R+,*3A0I:KS?a~NJxG'
+
+graphite_ldap_enabled: False
+graphite_ldap_uri: "ldap://ldap.mycompany.com:389"    # or ldaps://ldap.mycompany.com:636
+graphite_ldap_search_base: "OU=users,DC=mycompany,DC=com"
+graphite_ldap_base_user: "CN=some_readonly_account,DC=mycompany,DC=com"
+graphite_ldap_base_pass: "readonly_account_password"
+graphite_ldap_user_query: "(username=%s)"
