@@ -103,12 +103,7 @@ TIME_ZONE = 'UTC'
 ## LDAP / ActiveDirectory authentication setup
 {% if graphite_ldap_enabled is defined and graphite_ldap_enabled %}
 USE_LDAP_AUTH = True
-{% if graphite_ldaps_enabled is defined and graphite_ldaps_enabled %}
-LDAP_URI = "ldaps://{{ graphite_ldap_host }}:{{ graphite_ldap_port }}"
-{% else %} 
-LDAP_SERVER = "{{ graphite_ldap_host }}"
-LDAP_PORT = {{ graphite_ldap_port }}
-{% endif %}
+LDAP_URI = "{{ graphite_ldap_uri }}"
 LDAP_SEARCH_BASE = "{{ graphite_ldap_search_base }}"
 LDAP_BASE_USER = "{{ graphite_ldap_base_user }}"
 LDAP_BASE_PASS = "{{ graphite_ldap_base_pass }}"
