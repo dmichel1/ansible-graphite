@@ -5,5 +5,5 @@ install:
   - pip install -r requirements.txt
 script:
   - echo localhost > inventory
-  - ansible-playbook --syntax-check -i inventory role.yml
-  - ansible-playbook -i inventory role.yml --connection=local -vvvv
+  - ansible-playbook --syntax-check -i inventory playbook.yml
+  - ansible-playbook -i inventory playbook.yml --connection=local -vvvv
