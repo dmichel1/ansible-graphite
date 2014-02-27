@@ -9,6 +9,7 @@
   with_items: graphite_pkgs
   when: ansible_os_family == 'RedHat'
 
+
 - name: Install Graphite Dependencies for Debian
   apt: "name={{ item }} state=present update_cache=yes"
   with_items: graphite_pkgs
@@ -23,21 +24,6 @@
   pip: requirements=/tmp/requirements.txt
   environment:
     PYTHONPATH: "/opt/graphite/lib:/opt/graphite/webapp"
-
-- name: Configure carbon cache
-  template: src=opt/graphite/conf/carbon.conf.j2 dest=/opt/graphite/conf/carbon.conf mode=0644
-
-
-- name: Configure carbon storage schema
-  template: src=opt/graphite/conf/storage-schemas.conf.j2 dest=/opt/graphite/conf/storage-schemas.conf mode=0644
-
-
-- name: Configure carbon storage aggregation
-  template: src=opt/graphite/conf/storage-aggregation.conf.j2 dest=/opt/graphite/conf/storage-aggregation.conf mode=0644
-
-
-- name: Configure carbon init.d script
-  copy: src=etc/init.d/carbon-cache dest=/etc/init.d/carbon-cache mode=0755
 
 
 - name: Configure graphite apache vhost
@@ -74,14 +60,15 @@
   when: "permissions.stat.pw_name != apache_user"
 
 
-- name: Setup sqlite db
+- name: Setup sqlitedb
   command: /usr/bin/python manage.py syncdb --noinput chdir=/opt/graphite/webapp/graphite 
    creates=/opt/graphite/storage/graphite.db
   sudo_user: "{{ apache_user }}"
   register: sqlite_setup
 
-- name: Sleep
-  command: sleep 3
+
+- name: Wait for sqlitedb to be setup
+  shell: sleep 3
   when: sqlite_setup.changed
 
 

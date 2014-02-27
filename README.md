@@ -13,8 +13,9 @@ To run this playbook.
 5. In ~4 minutes you should have a running Graphite server!
 
 
-Config Changes
---------------
+
+What you need to change
+-----------------------
 ## Secrets
 Change `graphite_secret_key` under `roles/graphite/defaults/main.yml` to something unique for your graphite instance!
 
@@ -28,6 +29,8 @@ Ensure the path to Django media is correct for your distro
     Alias /media/ "/usr/lib/python2.6/site-packages/django/contrib/admin/media/"
 ```
 
+## Carbon Storage and Aggregation
+It has been setup according to [this page](https://github.com/etsy/statsd/blob/master/docs/graphite.md) and might not do what you expect to with your data
 
 
 Testing

@@ -4,6 +4,7 @@ graphite_apache_wsgi_socket_prefix: /var/run/apache2/wsgi
 graphite_apache_vhost_name: default
 
 graphite_pkgs:
+  - python-dev
   - python-pysqlite2
   - python-pip
   - python-cairo

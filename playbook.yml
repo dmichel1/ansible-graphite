@@ -1,4 +1,12 @@
 ---
+
+- name: Wait for sshd to be started
+  hosts: all
+  gather_facts: False
+  tasks:
+    - local_action: "wait_for host={{ inventory_hostname }} delay=0 port=22
+        timeout=90 state=started"
+
 - name: Discover facts and group
   hosts: all
   user: '{{ ssh_user }}'
@@ -6,9 +14,6 @@
   vars:
     ssh_user: root
   tasks:
-    - name: Wait for ssh to be running
-      local_action: wait_for host={{ inventory_hostname }} delay=0 port=22 timeout=90 state=started
-      sudo: no
     - name: Group RedHat hosts
       group_by: key={{ ansible_os_family }}
       changed_when: False
