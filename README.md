@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/dmichel1/ansible-graphite.png?branch=dmichel/travis_ci)](https://travis-ci.org/dmichel1/ansible-graphite)
+
 Ansible - Graphite: Scalable Realtime Graphing
 ------------------
 This Ansible playbook will install graphite via pip in its default location '/opt/graphite'
