@@ -4,9 +4,12 @@
 
 # XXX You need to set this up!
 # Read http://code.google.com/p/modwsgi/wiki/ConfigurationDirectives#WSGISocketPrefix
-WSGISocketPrefix run/wsgi
+WSGISocketPrefix {{ graphite_apache_wsgi_socket_prefix }}
+{% if graphite_apache_port != 80 and graphite_apache_port != 443 %}
+Listen {{ graphite_apache_port }}
+{% endif %}
 
-<VirtualHost *:{{ graphite_httpport }}>
+<VirtualHost *:{{ graphite_apache_port }}>
         ServerName graphite
         DocumentRoot "/opt/graphite/webapp"
         ErrorLog /opt/graphite/storage/log/webapp/error.log

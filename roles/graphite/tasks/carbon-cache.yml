@@ -1,0 +1,27 @@
+---
+
+- name: Configure carbon-cache
+  template: src=opt/graphite/conf/carbon.conf.j2 dest=/opt/graphite/conf/carbon.conf mode=0644
+  notify:
+    - Restart carbon-cache
+
+
+- name: Configure carbon-cache storage schema
+  template: src=opt/graphite/conf/storage-schemas.conf.j2 dest=/opt/graphite/conf/storage-schemas.conf mode=0644
+  notify:
+    - Restart carbon-cache
+
+
+- name: Configure carbon-cache storage aggregation
+  template: src=opt/graphite/conf/storage-aggregation.conf.j2 dest=/opt/graphite/conf/storage-aggregation.conf mode=0644
+  notify:
+    - Restart carbon-cache
+
+
+- name: Configure carbon-cache init.d script
+  copy: "src=etc/init.d/carbon-cache.{{ ansible_os_family }} dest=/etc/init.d/carbon-cache mode=0755
+    owner=root group=root"
+
+
+- name: Start carbon cache
+  service: name=carbon-cache state=running enabled=yes

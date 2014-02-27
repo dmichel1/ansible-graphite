@@ -1,17 +1,24 @@
 ---
 
-- name: Install Graphite Dependencies
+- name: Lookup OS specific variables
+  include_vars: "{{ ansible_os_family }}.yml"
+
+
+- name: Install Graphite Dependencies for Redhat
   yum: "name={{ item }} state=present"
-  with_items:
-    - sqlite
-    - bitmap 
-    - bitmap-fonts
-    - python-sqlite2
-    - pycairo
+  with_items: graphite_pkgs
+  when: ansible_os_family == 'RedHat'
+
+
+- name: Install Graphite Dependencies for Debian
+  apt: "name={{ item }} state=present update_cache=yes"
+  with_items: graphite_pkgs
+  when: ansible_os_family == 'Debian'
 
 
 - name: Create PIP requirements file 
   copy: src=opt/graphite/requirements.txt dest=/tmp/requirements.txt
+
 
 - name: Install Graphite from PIP
   pip: requirements=/tmp/requirements.txt
@@ -19,37 +26,28 @@
     PYTHONPATH: "/opt/graphite/lib:/opt/graphite/webapp"
 
 
-- name: Configure carbon cache
-  template: src=opt/graphite/conf/carbon.conf.j2 dest=/opt/graphite/conf/carbon.conf mode=0644
-
-
-- name: Configure carbon storage schema
-  template: src=opt/graphite/conf/storage-schemas.conf.j2 dest=/opt/graphite/conf/storage-schemas.conf mode=0644
-
-
-- name: Configure carbon storage aggregation
-  template: src=opt/graphite/conf/storage-aggregation.conf.j2 dest=/opt/graphite/conf/storage-aggregation.conf mode=0644
-
-
-- name: Configure carbon init.d script
-  copy: src=etc/init.d/carbon-cache dest=/etc/init.d/carbon-cache mode=0755
+- name: Configure graphite apache vhost
+  template: "src=etc/apache/graphite.conf.j2 dest={{ apache_vhost_dest }}/{{ graphite_apache_vhost_name }}
+   owner={{ apache_user }} group={{ apache_user }} mode=0644"
+  notify:
+    - Reload apache
 
 
 - name: Configure Graphite webapp
-  template: src=opt/graphite/webapp/graphite/local_settings.py.j2 dest=/opt/graphite/webapp/graphite/local_settings.py mode=0644
+  template: src=opt/graphite/webapp/graphite/local_settings.py.j2
+    dest=/opt/graphite/webapp/graphite/local_settings.py mode=0644
   notify:
-    - reload httpd
+    - Reload apache
 
 
 - name: Configure graphite.wsgi
   copy: src=opt/graphite/conf/graphite.wsgi dest=/opt/graphite/conf/graphite.wsgi mode=0644
   notify:
-    - reload httpd
+    - Reload apache
 
 
-- name: Setup sqlite DB
-  command: /usr/bin/python manage.py syncdb --noinput chdir=/opt/graphite/webapp/graphite 
-   creates=/opt/graphite/storage/graphite.db
+- name: Include carbon-cache
+  include: carbon-cache.yml
 
 
 - name: Get directory permissions
@@ -58,14 +56,21 @@
 
 
 - name: Set file permissions
-  command: /bin/chown -R apache:apache /opt/graphite
-  when: permissions.stat.pw_name == 'root'
+  command: "/bin/chown -R {{ apache_user }}:{{ apache_user }} /opt/graphite"
+  when: "permissions.stat.pw_name != apache_user"
+
+
+- name: Setup sqlitedb
+  command: /usr/bin/python manage.py syncdb --noinput chdir=/opt/graphite/webapp/graphite 
+   creates=/opt/graphite/storage/graphite.db
+  sudo_user: "{{ apache_user }}"
+  register: sqlite_setup
+
+
+- name: Wait for sqlitedb to be setup
+  shell: sleep 3
+  when: sqlite_setup.changed
 
 
 - name: Start apache httpd
-  service: name=httpd state=running enabled=yes
-
-
-- name: Start carbon cache
-  service: name=carbon-cache state=running enabled=yes
-
+  service: "name={{ apache_service }} state=running enabled=yes"
