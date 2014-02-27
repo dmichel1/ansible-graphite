@@ -5,7 +5,7 @@
   gather_facts: False
   tasks:
     - name: Wait for sshd to be running
-    - local_action: "wait_for host={{ inventory_hostname }} delay=0 port=22
+      local_action: "wait_for host={{ inventory_hostname }} delay=0 port=22
         timeout=90 state=started"
 
 - name: Discover facts and group
