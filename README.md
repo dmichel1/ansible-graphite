@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/dmichel1/ansible-graphite.png?branch=dmichel/travis_ci)](https://travis-ci.org/dmichel1/ansible-graphite)
+
 Ansible - Graphite: Scalable Realtime Graphing
 ------------------
 This Ansible playbook will install graphite via pip in its default location '/opt/graphite'
@@ -20,7 +22,7 @@ What you need to change
 Change `graphite_secret_key` under `roles/graphite/defaults/main.yml` to something unique for your graphite instance!
 
 ## Django
-Ensure the path to Django media is correct for your distro
+Change `graphite_django_admin_media` under `roles/graphite/defaults/main.yml` to the path of your django admin media
 ```
     # XXX In order for the django admin site media to work you
     # must change @DJANGO_ROOT@ to be the path to your django
