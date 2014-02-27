@@ -4,6 +4,6 @@ python: "2.7"
 install:
   - pip install -r requirements.txt
 script:
-  - echo localhost > inventory
+  - echo -e "[graphite]\nlocalhost" > inventory
   - ansible-playbook --syntax-check -i inventory playbook.yml
   - ansible-playbook -i inventory playbook.yml --connection=local -vvvv
