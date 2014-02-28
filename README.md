@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/dmichel1/ansible-graphite.png?branch=dmichel/travis_ci)](https://travis-ci.org/dmichel1/ansible-graphite)
+[![Build Status](https://travis-ci.org/dmichel1/ansible-graphite.png?branch=master)](https://travis-ci.org/dmichel1/ansible-graphite)
 
 Ansible - Graphite: Scalable Realtime Graphing
 ------------------
