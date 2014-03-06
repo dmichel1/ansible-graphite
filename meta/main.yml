@@ -9,6 +9,10 @@ galaxy_info:
   - name: EL
     versions:
     - 6
+  - name: Ubuntu
+    versions:
+    - precise
+    - raring 
   categories:
   - monitoring
 dependencies: []
