@@ -2,7 +2,7 @@
 
 - name: Add the EPEL Repository
   yum: name=http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm state=present
-
+  when: ansible_distribution != 'Amazon'
 
 - name: Install Python PIP and Python Development
   yum: "name={{ item }} state=installed"

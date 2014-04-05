@@ -12,6 +12,7 @@ To run this playbook.
 3. ignore ssh's known hosts file
   * `export ANSIBLE_HOST_KEY_CHECKING=False`
 4. run `ansible-playbook -i hosts playbook.yml`
+  * You can modify the user Ansible uses by adding extra-vars `ansible-playbook -i hosts playbook.yml --extra-vars ssh_user=ec2-user`
 5. In ~4 minutes you should have a running Graphite server!
 
 
@@ -54,12 +55,20 @@ I've tested this playbook with Digital Ocean VM's with a few different flavor of
   * Ubuntu 12.04 Precise Pangolin
   * Ubuntu 13.04 Raring Ringtail
 
+### AWS EC2
+  * Amazon Linux
+
 
 
 TODO
 ----
 * Add Django superuser creation `python manage.py createsuperuser`.
 
+
+Known Issues
+------------
+* If you are seeing "DatabaseError: database is locked" in your graphite logs, restarting apache may fix the issue for you. 
+* SELinux needs to be disabled
 
 
 Resources
