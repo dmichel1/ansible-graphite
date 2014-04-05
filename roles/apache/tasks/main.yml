@@ -10,6 +10,6 @@
   when: ansible_os_family == 'RedHat'
 
 - name: Install apache packages for Debian
-  apt: "name={{ item }} state=present"
+  apt: "name={{ item }} state=present update_cache=yes"
   with_items: apache_pkgs
   when: ansible_os_family == 'Debian'

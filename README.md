@@ -28,7 +28,9 @@ Change `graphite_django_admin_media` under `roles/graphite/defaults/main.yml` to
     # must change @DJANGO_ROOT@ to be the path to your django
     # installation, which is probably something like:
 
-    Alias /media/ "/usr/lib/python2.6/site-packages/django/contrib/admin/media/"
+    Alias /media/ "/usr/local/lib/python2.7/dist-packages/django/contrib/admin/static/admin/"
+    # or 
+    #Alias /media/ "/usr/lib/python2.6/site-packages/django/contrib/admin/media/"
 ```
 
 ## Carbon Storage and Aggregation
@@ -59,6 +61,13 @@ I've tested this playbook with Digital Ocean VM's with a few different flavor of
 TODO
 ----
 * Add Django superuser creation `python manage.py createsuperuser`.
+
+
+
+Known Issues
+------------
+* If you are seeing "DatabaseError: database is locked" in your graphite logs, restarting apache may fix the issue for you. 
+
 
 
 
