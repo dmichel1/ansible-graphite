@@ -5,7 +5,8 @@ graphite_apache_vhost_name: graphite.conf
 
 graphite_pkgs:
   - sqlite
-  - bitmap 
-  - bitmap-fonts
   - python-sqlite2
   - pycairo
+  - libfontenc
+  #- bitmap-fonts
+  #- bitmap 

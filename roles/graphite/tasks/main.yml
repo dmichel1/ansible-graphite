@@ -5,7 +5,7 @@
 
 
 - name: Install Graphite Dependencies for Redhat
-  yum: "name={{ item }} state=present"
+  yum: "name={{ item }} state=present enablerepo=epel"
   with_items: graphite_pkgs
   when: ansible_os_family == 'RedHat'
 
