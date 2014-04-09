@@ -41,6 +41,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "shell", inline: "sudo locale-gen en_US.UTF-8"
 
   config.vm.provision "ansible" do |ansible|
+    ansible.limit = 'all' #https://github.com/mitchellh/vagrant/issues/3096
     ansible.playbook = "playbook.yml"
     ansible.inventory_path = "hosts"
     ansible.host_key_checking = false
