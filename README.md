@@ -47,15 +47,14 @@ Simply clone this repo and make sure you have Vagrant + Virtual Box installed an
   2. visit http://192.168.111.222/
   3. :-) 
 
-Vagrant is using Ubuntu 13.04 Raring Ringtail for it's OS.
+Vagrant is using Ubuntu 14.04 Trusty Tahr for it's OS.
 
 
 ### Digital Ocean
 I've tested this playbook with Digital Ocean VM's with a few different flavor of OS's.
 
-  * CentOS 6.5  
-  * Ubuntu 12.04 Precise Pangolin
-  * Ubuntu 13.04 Raring Ringtail
+  * CentOS 6.5
+  * Ubuntu 14.04 Trusty Tahr
 
 ### AWS EC2
   * Amazon Linux
@@ -71,13 +70,6 @@ Known Issues
 ------------
 * If you are seeing "DatabaseError: database is locked" in your graphite logs, restarting apache may fix the issue for you. 
 * SELinux needs to be disabled
-
-
-Known Issues
-------------
-* If you are seeing "DatabaseError: database is locked" in your graphite logs, restarting apache may fix the issue for you. 
-
-
 
 
 Resources
