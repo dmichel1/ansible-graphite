@@ -4,15 +4,14 @@ galaxy_info:
   description: Graphite - Scalable Realtime Graphing
   company: Drewl
   license: MIT
-  min_ansible_version: 1.3
+  min_ansible_version: 1.7.2
   platforms:
   - name: EL
     versions:
     - 6
   - name: Ubuntu
     versions:
-    - precise
-    - raring 
+    - trusty
   categories:
   - monitoring
 dependencies: []

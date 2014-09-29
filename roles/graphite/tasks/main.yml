@@ -33,6 +33,13 @@
     - Reload apache
 
 
+- name: Remove the default apache vhost
+  file: "path={{ apache_vhost_dest }}/000-default.conf state=absent"
+  notify:
+    - Reload apache
+  when: ansible_os_family == 'Debian'
+
+
 - name: Configure Graphite webapp
   template: src=opt/graphite/webapp/graphite/local_settings.py.j2
     dest=/opt/graphite/webapp/graphite/local_settings.py mode=0644
