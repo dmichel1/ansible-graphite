@@ -70,7 +70,6 @@
 - name: Setup sqlitedb
   command: /usr/bin/python manage.py syncdb --noinput chdir=/opt/graphite/webapp/graphite 
    creates=/opt/graphite/storage/graphite.db
-  sudo_user: "{{ apache_user }}"
   register: sqlite_setup
 
 
