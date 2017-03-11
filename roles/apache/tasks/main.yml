@@ -6,10 +6,10 @@
 
 - name: Install apache packages for RedHat
   yum: "name={{ item }} state=present"
-  with_items: apache_pkgs
+  with_items: "{{ apache_pkgs }}"
   when: ansible_os_family == 'RedHat'
 
 - name: Install apache packages for Debian
   apt: "name={{ item }} state=present update_cache=yes"
-  with_items: apache_pkgs
+  with_items: "{{ apache_pkgs }}"
   when: ansible_os_family == 'Debian'

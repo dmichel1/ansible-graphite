@@ -6,13 +6,13 @@
 
 - name: Install Graphite Dependencies for Redhat
   yum: "name={{ item }} state=present enablerepo=epel"
-  with_items: graphite_pkgs
+  with_items: "{{ graphite_pkgs }}"
   when: ansible_os_family == 'RedHat'
 
 
 - name: Install Graphite Dependencies for Debian
   apt: "name={{ item }} state=present update_cache=yes"
-  with_items: graphite_pkgs
+  with_items: "{{ graphite_pkgs }}"
   when: ansible_os_family == 'Debian'
 
 
