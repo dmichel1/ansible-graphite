@@ -11,7 +11,8 @@
 - name: Discover facts and group
   hosts: all
   user: '{{ ssh_user }}'
-  sudo: yes
+  become: true
+  become_user: root
   vars:
     ssh_user: root
   tasks:
@@ -23,7 +24,8 @@
 - name: Configure RedHat hosts
   hosts: RedHat
   user: '{{ ssh_user }}'
-  sudo: yes
+  become: true
+  become_user: root
   gather_facts: no
   vars:
     ssh_user: root
@@ -34,7 +36,8 @@
 - name: graphite
   hosts: graphite
   user: '{{ ssh_user }}'
-  sudo: true
+  become: true
+  become_user: root
   gather_facts: no
   vars:
     ssh_user: root
