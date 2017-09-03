@@ -21,7 +21,9 @@
 
 
 - name: Install Graphite from PIP
-  pip: requirements=/tmp/requirements.txt
+  pip:
+    requirements: /tmp/requirements.txt
+    extra_args: "--no-binary=:all:"
   environment:
     PYTHONPATH: "/opt/graphite/lib:/opt/graphite/webapp"
 
