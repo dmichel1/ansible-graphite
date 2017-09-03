@@ -16,7 +16,7 @@
   when: ansible_os_family == 'Debian'
 
 
-- name: Create PIP requirements file 
+- name: Create PIP requirements file
   copy: src=opt/graphite/requirements.txt dest=/tmp/requirements.txt
 
 
@@ -68,9 +68,9 @@
 
 
 - name: Setup sqlitedb
-  command: /usr/bin/python manage.py syncdb --noinput chdir=/opt/graphite/webapp/graphite 
-   creates=/opt/graphite/storage/graphite.db
+  command: /usr/bin/python manage.py syncdb --noinput chdir=/opt/graphite/webapp/graphite creates=/opt/graphite/storage/graphite.db
   register: sqlite_setup
+  become_user: "{{ apache_user }}"
 
 
 - name: Wait for sqlitedb to be setup
